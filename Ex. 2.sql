@@ -1,5 +1,29 @@
 USE FamilyTreeDB;
 
+--יצירת דאטה בייס
+
+ CREATE DATABASE FamilyDB
+
+--יצירת טבלת אנשים
+
+  CREATE TABLE MyPerson(
+   Person_Id INT PRIMARY KEY IDENTITY(1,1) ,
+   Personal_Name VARCHAR(30),
+   Family_Name VARCHAR(20),
+   Gender VARCHAR(6) CHECK (Gender IN ('male' , 'female')) NOT NULL,
+   Father_Id INT ,
+   Mother_Id INT,
+   Spouse_Id INT
+)
+
+--יצירת טבלת עץ משפחה
+CREATE TABLE FamilyTree(
+  Id INT PRIMARY KEY IDENTITY(1,1),
+  Person_Id INT NOT NULL,FOREIGN KEY (Person_Id) REFERENCES MyPerson (Person_Id),
+  Relative_Id INT NOT NULL,FOREIGN KEY (Relative_Id) REFERENCES MyPerson (Person_Id),
+  Connection_Type VARCHAR(10) CHECK (Connection_Type IN ('father','mother','sister','brother','son','daughter','spouse_male','spouse_female')) NOT NULL
+)
+
 CREATE PROCEDURE BuildFamilyTree
 AS
 BEGIN
